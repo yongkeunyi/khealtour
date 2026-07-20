@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>뇌파로 증명하는 K-치유관광 · 뉴로피드백 창의체험</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css">
+<style>
+  :root{
+    --ink:#15130f;
+    --ink-2:#1c1a14;
+    --panel:#1f2a3d;
+    --paper:#f3ead9;
+    --paper-dim:#c9bda1;
+    --paper-faint:#8f8368;
+    --jade:#4a8b78;
+    --jade-soft:#7fb7a4;
+    --vermilion:#c25a3d;
+    --vermilion-soft:#d98a6f;
+    --brass:#c9a24a;
+    --line: rgba(243,234,217,0.14);
+    --maxw: 1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Pretendard Variable','Noto Sans KR',sans-serif;
+    font-weight:400;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--brass); color:var(--ink); }
+
+  a{ color:inherit; }
+  :focus-visible{
+    outline: 2px solid var(--brass);
+    outline-offset: 3px;
+  }
+
+  h1,h2,h3{
+    font-family:'Song Myung', serif;
+    font-weight:400;
+    letter-spacing:0.01em;
+    margin:0;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+  }
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 32px;
+  }
+  section{ position:relative; }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(21,19,15,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:var(--maxw); margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .wordmark{
+    font-family:'Song Myung', serif;
+    font-size:1.05rem;
+    display:flex; align-items:baseline; gap:8px;
+  }
+  .wordmark span{ font-family:'IBM Plex Mono', monospace; font-size:0.62rem; color:var(--paper-faint); letter-spacing:0.1em;}
+  nav.links{ display:flex; gap:28px; font-size:0.86rem; color:var(--paper-dim); }
+  nav.links a{ text-decoration:none; transition:color .2s; }
+  nav.links a:hover{ color:var(--brass); }
+  @media (max-width:760px){ nav.links{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:96px 0 40px;
+    overflow:hidden;
+  }
+  .hero .wrap{ display:grid; grid-template-columns: 1.15fr 0.85fr; gap:56px; align-items:end; }
+  @media (max-width:900px){ .hero .wrap{ grid-template-columns:1fr; } }
+
+  .hero .eyebrow{ margin-bottom:22px; display:block; }
+  .hero h1{
+    font-size:clamp(2.4rem, 5vw, 4.1rem);
+    line-height:1.22;
+    color:var(--paper);
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--jade-soft);
+  }
+  .hero p.lede{
+    margin-top:26px;
+    max-width:52ch;
+    color:var(--paper-dim);
+    font-size:1.06rem;
+  }
+  .hero .meta{
+    margin-top:34px;
+    display:flex; flex-wrap:wrap; gap:10px 14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--paper-faint);
+  }
+  .hero .meta span{
+    border:1px solid var(--line);
+    padding:6px 12px;
+    border-radius:999px;
+  }
+
+  .hero-side{
+    text-align:right;
+  }
+  .hero-side p{
+    color:var(--paper-dim);
+    font-size:0.94rem;
+    max-width:34ch;
+    margin-left:auto;
+  }
+  @media (max-width:900px){ .hero-side{ text-align:left; } .hero-side p{ margin-left:0; } }
+
+  /* EEG signature strip */
+  .wave-strip{
+    margin-top:56px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:18px 0;
+  }
+  .wave-strip .wrap{ display:block; }
+  .wave-labels{
+    display:flex; justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    color:var(--paper-faint);
+    letter-spacing:0.08em;
+    margin-bottom:6px;
+  }
+  .wave-labels .l-before{ color:var(--vermilion-soft); }
+  .wave-labels .l-after{ color:var(--jade-soft); }
+  canvas#eegCanvas{ display:block; width:100%; height:110px; }
+
+  /* ---------- SECTION SHELL ---------- */
+  .section{ padding:104px 0; border-bottom:1px solid var(--line); }
+  .section-head{ max-width:640px; margin-bottom:56px; }
+  .section-head h2{ font-size:clamp(1.7rem,3vw,2.4rem); margin-top:14px; }
+  .section-head p{ color:var(--paper-dim); margin-top:16px; font-size:1rem; }
+
+  /* ---------- WHY (뇌파) ---------- */
+  .why-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap:64px;
+  }
+  @media (max-width:840px){ .why-grid{ grid-template-columns:1fr; gap:36px; } }
+  .why-copy p{ color:var(--paper-dim); margin:0 0 18px; }
+  .why-copy strong{ color:var(--paper); font-weight:600; }
+
+  .band-table{
+    border-top:1px solid var(--line);
+  }
+  .band-row{
+    display:grid; grid-template-columns: 90px 1fr 90px;
+    align-items:center;
+    gap:18px;
+    padding:14px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .band-row .band-name{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    color:var(--brass);
+  }
+  .band-row .band-desc{ color:var(--paper-dim); font-size:0.92rem; }
+  .band-row .band-hz{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--paper-faint);
+    text-align:right;
+  }
+
+  /* ---------- JOURNEY TIMELINE ---------- */
+  .journey{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .j-row{
+    display:grid;
+    grid-template-columns: 64px 1fr;
+    gap:24px;
+    padding:26px 0;
+    border-top:1px solid var(--line);
+  }
+  .j-row:last-child{ border-bottom:1px solid var(--line); }
+  .j-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--paper-faint);
+    padding-top:4px;
+  }
+  .j-row.measure .j-num{ color:var(--vermilion-soft); }
+  .j-row.measure2 .j-num{ color:var(--jade-soft); }
+  .j-title{ font-size:1.12rem; color:var(--paper); margin-bottom:6px; }
+  .j-desc{ color:var(--paper-dim); font-size:0.94rem; max-width:60ch; }
+
+  .day-strip{
+    margin-top:6px;
+    display:grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap:8px;
+  }
+  @media (max-width:700px){ .day-strip{ grid-template-columns: repeat(4,1fr); } }
+  .day-dot{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:10px 8px;
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .day-dot .d-n{ font-size:0.68rem; color:var(--paper-faint); }
+  .day-dot .d-t{ font-size:0.78rem; color:var(--paper-dim); margin-top:4px; }
+
+  /* ---------- FOUR THREADS ---------- */
+  .threads{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:760px){ .threads{ grid-template-columns:1fr; } }
+  .thread-card{
+    background:var(--ink);
+    padding:40px 36px;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .thread-icon{ width:40px; height:40px; color:var(--brass); }
+  .thread-icon svg{ width:100%; height:100%; stroke:currentColor; fill:none; stroke-width:1.4; }
+  .thread-card h3{ font-size:1.28rem; color:var(--paper); }
+  .thread-role{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--paper-faint);
+    letter-spacing:0.03em;
+  }
+  .thread-quote{
+    color:var(--jade-soft);
+    font-size:0.98rem;
+    font-style:normal;
+    border-left:2px solid var(--brass);
+    padding-left:14px;
+    margin:2px 0;
+  }
+  .thread-card p.detail{ color:var(--paper-dim); font-size:0.92rem; margin:0; }
+
+  /* ---------- DAILY FLOW ---------- */
+  .flow-bar{
+    display:flex;
+    height:64px;
+    border-radius:8px;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .flow-seg{
+    flex:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.76rem;
+    color:var(--ink);
+    position:relative;
+  }
+  .flow-seg span{ position:relative; z-index:2; }
+  .flow-seg.f1{ background:var(--vermilion); }
+  .flow-seg.f2{ background:var(--brass); }
+  .flow-seg.f3{ background:var(--jade); }
+  .flow-seg.f4{ background:var(--paper-dim); }
+  .flow-caption{
+    display:flex; justify-content:space-between;
+    margin-top:14px;
+    font-size:0.86rem;
+    color:var(--paper-dim);
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .flow-caption div{ flex:1 1 20%; }
+  .flow-caption strong{ display:block; color:var(--paper); font-weight:500; margin-bottom:3px; }
+
+  /* ---------- NEXT STEP ---------- */
+  .next{
+    display:grid; grid-template-columns: 1fr 1fr; gap:56px; align-items:center;
+  }
+  @media (max-width:840px){ .next{ grid-template-columns:1fr; } }
+  .next h2{ font-size:clamp(1.8rem,3.4vw,2.6rem); line-height:1.3; }
+  .next .steps{ display:flex; flex-direction:column; gap:0; }
+  .next-step{
+    display:grid; grid-template-columns:32px 1fr; gap:16px;
+    padding:20px 0; border-top:1px solid var(--line);
+  }
+  .next-step:last-child{ border-bottom:1px solid var(--line); }
+  .next-step .n{ font-family:'IBM Plex Mono', monospace; color:var(--brass); font-size:0.85rem; }
+  .next-step .t{ color:var(--paper); font-size:1rem; margin-bottom:3px; }
+  .next-step .d{ color:var(--paper-dim); font-size:0.88rem; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:56px 0 64px;
+  }
+  .footer-grid{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px;
+    font-size:0.86rem; color:var(--paper-dim);
+  }
+  footer .org{ color:var(--paper); font-family:'Song Myung', serif; font-size:1.1rem; }
+  footer .fine{
+    margin-top:28px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    color:var(--paper-faint);
+  }
+
+  .reveal{
+    opacity:0; transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in{ opacity:1; transform:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ transition:none; opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="wordmark">K-치유관광 <span>NEUROFEEDBACK CREATIVE PROGRAM</span></div>
+    <nav class="links">
+      <a href="#why">프로그램 소개</a>
+      <a href="#threads">진행자</a>
+      <a href="#flow">하루의 흐름</a>
+      <a href="#next">마치며</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">2026 여름방학 꿈키움 · 학교 밖 교육 창의적 체험활동</span>
+      <h1>여덟 날의 치유,<br>뇌파로 <em>증명</em>합니다</h1>
+      <p class="lede">국악의 가락과 치유명상, 치유요가의 호흡과 치유맨발걷기로 딛는 흙 — 네 가지 치유가 몸에 남긴 흔적을 뇌파 측정으로 데이터로 확인하는 K-치유관광 창의체험 프로그램입니다.</p>
+      <div class="meta">
+        <span>운영 8일 · 1일 2시간</span>
+        <span>뇌파 측정 2회 (1일차·7일차)</span>
+        <span>총괄 이용근 교수</span>
+        <span>운영 K-MediWell 글로컬 프로젝트팀</span>
+      </div>
+    </div>
+    <div class="hero-side">
+      <p>느낌으로만 말해온 치유관광에 뇌파라는 눈금을 더해, 몸이 실제로 달라졌음을 스스로 확인하는 여름입니다.</p>
+    </div>
+  </div>
+
+  <div class="wave-strip">
+    <div class="wrap">
+      <div class="wave-labels">
+        <span class="l-before">측정 1 · BEFORE — 불규칙한 파형</span>
+        <span class="l-after">측정 2 · AFTER — 안정된 파형</span>
+      </div>
+      <canvas id="eegCanvas"></canvas>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="leadership" style="padding:72px 0;">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="reveal">
+        <span class="eyebrow">Program Leadership</span>
+        <h3 style="font-size:1.5rem; margin-top:12px;">총괄</h3>
+        <p style="color:var(--paper-dim); margin-top:12px; font-size:0.96rem;">국립공주대학교 스마트의료웰니스관광대학원 <strong style="color:var(--paper); font-weight:600;">이용근 교수</strong>가 프로그램 전체를 설계하고 총괄합니다. 전국 최초로 스마트의료웰니스관광학과를 설립한 이래, 뇌과학과 치유관광을 잇는 연구와 교육을 이끌어 왔습니다.</p>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Operation</span>
+        <h3 style="font-size:1.5rem; margin-top:12px;">운영</h3>
+        <p style="color:var(--paper-dim); margin-top:12px; font-size:0.96rem;">대학원 산하 <strong style="color:var(--paper); font-weight:600;">K-MediWell 글로컬 프로젝트팀</strong>이 현장 운영을 맡습니다. 뇌파 측정부터 치유국악음악·치유명상·치유요가·치유맨발걷기 진행자 배정까지, 여덟 날의 전 과정을 실무로 뒷받침합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="why">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Why Brainwaves</span>
+      <h2>왜, 뇌파인가</h2>
+      <p>2026년 4월 치유관광산업 진흥법이 시행되며 치유관광은 빠르게 산업으로 성장하고 있습니다. 그러나 그 효과는 대부분 &ldquo;편안했다&rdquo;는 말로만 남습니다. 이 프로그램은 그 편안함의 순간을 뇌파로 기록해, 눈으로 볼 수 있는 데이터로 바꿉니다.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-copy reveal">
+        <p><strong>측정은 두 번입니다.</strong> 프로그램을 시작하기 전 한 번, 여덟 날의 체험을 모두 마친 뒤 한 번. 같은 조건에서 채록한 두 개의 뇌파를 나란히 놓으면, 그 사이에 무엇이 달라졌는지가 그대로 드러납니다.</p>
+        <p>학생들은 이 변화를 스스로 해석하며 <strong>자기성찰노트</strong>를 씁니다. 데이터를 읽는 사람이 곧 그 데이터의 주인공이 되는 방식입니다.</p>
+      </div>
+      <div class="band-table reveal">
+        <div class="band-row">
+          <div class="band-name">Delta</div>
+          <div class="band-desc">깊은 이완, 회복의 파형</div>
+          <div class="band-hz">0.5–4Hz</div>
+        </div>
+        <div class="band-row">
+          <div class="band-name">Theta</div>
+          <div class="band-desc">치유명상·직관, 국악 선율이 이끄는 파형</div>
+          <div class="band-hz">4–8Hz</div>
+        </div>
+        <div class="band-row">
+          <div class="band-name">Alpha</div>
+          <div class="band-desc">편안한 각성, 걷기와 호흡의 파형</div>
+          <div class="band-hz">8–13Hz</div>
+        </div>
+        <div class="band-row">
+          <div class="band-name">Beta</div>
+          <div class="band-desc">집중과 긴장, 일상의 파형</div>
+          <div class="band-hz">13–30Hz</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="journey">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">The Journey</span>
+      <h2>측정에서 측정까지, 여정</h2>
+      <p>프로그램은 하나의 실험처럼 설계됩니다. 데이터를 채록하고, 몸으로 여덟 날을 지나, 다시 데이터를 채록하는 순서입니다.</p>
+    </div>
+    <div class="journey">
+      <div class="j-row measure reveal">
+        <div class="j-num">1일차</div>
+        <div>
+          <div class="j-title">사전 뇌파 측정 (측정 1)</div>
+          <div class="j-desc">프로그램을 시작하는 첫날, 평상시 상태의 뇌파를 채록해 기준값을 만듭니다.</div>
+        </div>
+      </div>
+      <div class="j-row reveal">
+        <div class="j-num">2~6일차</div>
+        <div>
+          <div class="j-title">닷새간의 체험</div>
+          <div class="j-desc">치유국악음악·치유명상·치유요가·치유맨발걷기, 네 가지 치유를 하루 2시간씩 몸으로 겪습니다.</div>
+          <div class="day-strip">
+            <div class="day-dot"><div class="d-n">DAY 2</div><div class="d-t">치유국악음악·치유명상<br>치유요가·치유맨발걷기</div></div>
+            <div class="day-dot"><div class="d-n">DAY 3</div><div class="d-t">치유국악음악·치유명상<br>치유요가·치유맨발걷기</div></div>
+            <div class="day-dot"><div class="d-n">DAY 4</div><div class="d-t">치유국악음악·치유명상<br>치유요가·치유맨발걷기</div></div>
+            <div class="day-dot"><div class="d-n">DAY 5</div><div class="d-t">치유국악음악·치유명상<br>치유요가·치유맨발걷기</div></div>
+            <div class="day-dot"><div class="d-n">DAY 6</div><div class="d-t">치유국악음악·치유명상<br>치유요가·치유맨발걷기</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="j-row measure2 reveal">
+        <div class="j-num">7일차</div>
+        <div>
+          <div class="j-title">사후 뇌파 측정 (측정 2)</div>
+          <div class="j-desc">닷새간의 체험을 마친 뒤 같은 조건으로 다시 채록해, 1일차 데이터와 나란히 비교합니다.</div>
+        </div>
+      </div>
+      <div class="j-row reveal">
+        <div class="j-num">8일차</div>
+        <div>
+          <div class="j-title">뇌파 변화 발표</div>
+          <div class="j-desc">측정 1과 측정 2 사이의 변화를 스스로 해석해 자기성찰노트로 남기고, 서로 앞에서 발표합니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:64px;">
+      <span class="eyebrow">At a Glance</span>
+      <h3 style="font-size:1.3rem; margin-top:10px; margin-bottom:22px; font-family:'Song Myung',serif; font-weight:400;">8일 프로그램 한눈에 보기</h3>
+      <div class="band-table">
+        <div class="band-row" style="grid-template-columns:90px 1fr;">
+          <div class="band-name">1일차</div>
+          <div class="band-desc">사전 뇌파 측정 (측정 1)</div>
+        </div>
+        <div class="band-row" style="grid-template-columns:90px 1fr;">
+          <div class="band-name">2일차</div>
+          <div class="band-desc">치유국악음악 · 치유명상 · 치유요가 · 치유맨발걷기 (각 30분)</div>
+        </div>
+        <div class="band-row" style="grid-template-columns:90px 1fr;">
+          <div class="band-name">3일차</div>
+          <div class="band-desc">치유국악음악 · 치유명상 · 치유요가 · 치유맨발걷기 (각 30분)</div>
+        </div>
+        <div class="band-row" style="grid-template-columns:90px 1fr;">
+          <div class="band-name">4일차</div>
+          <div class="band-desc">치유국악음악 · 치유명상 · 치유요가 · 치유맨발걷기 (각 30분)</div>
+        </div>
+        <div class="band-row" style="grid-template-columns:90px 1fr;">
+          <div class="band-name">5일차</div>
+          <div class="band-desc">치유국악음악 · 치유명상 · 치유요가 · 치유맨발걷기 (각 30분)</div>
+        </div>
+        <div class="band-row" style="grid-template-columns:90px 1fr;">
+          <div class="band-name">6일차</div>
+          <div class="band-desc">치유국악음악 · 치유명상 · 치유요가 · 치유맨발걷기 (각 30분)</div>
+        </div>
+        <div class="band-row" style="grid-template-columns:90px 1fr;">
+          <div class="band-name">7일차</div>
+          <div class="band-desc">사후 뇌파 측정 (측정 2)</div>
+        </div>
+        <div class="band-row" style="grid-template-columns:90px 1fr;">
+          <div class="band-name">8일차</div>
+          <div class="band-desc">측정 1·측정 2 비교, 뇌파 변화 발표 및 자기성찰노트 작성</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="threads">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Four Threads of Healing</span>
+      <h2>네 가지 치유의 결</h2>
+      <p>각 분야에서 오래 몸을 닦아온 이들이 하루 2시간, 한 가지씩 이끕니다.</p>
+    </div>
+    <div class="threads">
+      <div class="thread-card reveal">
+        <div class="thread-icon">
+          <svg viewBox="0 0 40 40"><path d="M6 30 L34 10 M6 30 L10 8 M6 30 L14 32 M10 8 L34 10"/><path d="M8 26 L30 13 M9 22 L28 11" stroke-width="0.8"/></svg>
+        </div>
+        <h3>치유국악음악</h3>
+        <div class="thread-role">이규영 · 서울대학교 국악과 졸업, 대학원 강사</div>
+        <div class="thread-quote">가야금과 대금의 결이 세타파를 부릅니다</div>
+        <p class="detail">전통 가락의 느린 시김새와 여백이 긴장한 뇌를 이완의 리듬으로 이끕니다.</p>
+      </div>
+      <div class="thread-card reveal">
+        <div class="thread-icon">
+          <svg viewBox="0 0 40 40"><circle cx="20" cy="16" r="6"/><path d="M20 22 L20 30 M12 34 Q20 26 28 34 M14 20 Q20 24 26 20"/></svg>
+        </div>
+        <h3>치유명상</h3>
+        <div class="thread-role">태원스님 · 갑사 템플스테이 지도법사</div>
+        <div class="thread-quote">숨을 고르는 사찰의 시간</div>
+        <p class="detail">호흡을 세는 단순한 훈련으로 산란한 생각을 가라앉히고 알파파의 평온으로 데려갑니다.</p>
+      </div>
+      <div class="thread-card reveal">
+        <div class="thread-icon">
+          <svg viewBox="0 0 40 40"><circle cx="20" cy="8" r="3.2"/><path d="M20 11 L20 20 M20 14 L10 10 M20 14 L30 22 M20 20 L12 32 M20 20 L28 30"/></svg>
+        </div>
+        <h3>치유요가</h3>
+        <div class="thread-role">김성원 · 한국치유요가협회 이사장</div>
+        <div class="thread-quote">몸을 통해 마음을 정렬하다</div>
+        <p class="detail">호흡과 이어진 동작으로 몸의 긴장을 풀며, 신체 감각을 다시 마음과 연결합니다.</p>
+      </div>
+      <div class="thread-card reveal">
+        <div class="thread-icon">
+          <svg viewBox="0 0 40 40"><path d="M12 28 Q10 22 14 20 Q18 18 16 14" stroke-width="1.2"/><path d="M26 30 Q28 24 24 22 Q20 20 22 16" stroke-width="1.2"/><path d="M6 34 H34" stroke-width="0.8" stroke-dasharray="1 2"/></svg>
+        </div>
+        <h3>치유맨발걷기</h3>
+        <div class="thread-role">K-MediWell 연구단 진행</div>
+        <div class="thread-quote">땅과 하나가 되는 걸음</div>
+        <p class="detail">신발을 벗고 맨발로 흙을 딛는 접지(어싱)의 감각이 몸의 감각을 있는 그대로 깨웁니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="flow">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">A Day, Two Hours</span>
+      <h2>하루의 흐름</h2>
+      <p>체험이 이어지는 2~6일차, 같은 순서로 30분씩 네 번 전환하며 몸과 마음의 결을 바꿉니다.</p>
+    </div>
+    <div class="reveal">
+      <div class="flow-bar">
+        <div class="flow-seg f1"><span>국악음악 30분</span></div>
+        <div class="flow-seg f2"><span>치유명상 30분</span></div>
+        <div class="flow-seg f3"><span>치유요가 30분</span></div>
+        <div class="flow-seg f4"><span>치유맨발걷기 30분</span></div>
+      </div>
+      <div class="flow-caption">
+        <div><strong>국악음악</strong>귀로 듣는 이완</div>
+        <div><strong>치유명상</strong>숨으로 고르는 마음</div>
+        <div><strong>치유요가</strong>몸으로 정렬하는 감각</div>
+        <div><strong>치유맨발걷기</strong>발로 딛는 접지</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="next" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="next">
+      <h2 class="reveal">뇌파가 바뀐 자리에서,<br>새로운 길을 찾습니다</h2>
+      <div class="steps">
+        <div class="next-step reveal">
+          <div class="n">01</div>
+          <div><div class="t">데이터로 증명된 치유의 경험</div><div class="d">사전·사후 뇌파 변화를 직접 확인하며, 치유관광의 효과를 몸과 데이터 양쪽으로 이해합니다.</div></div>
+        </div>
+        <div class="next-step reveal">
+          <div class="n">02</div>
+          <div><div class="t">뇌과학 기반 치유관광지도사라는 직업</div><div class="d">치유국악음악·치유명상·치유요가·치유맨발걷기를 뇌파 데이터와 함께 설계할 수 있는 새로운 전문성을 상상합니다.</div></div>
+        </div>
+        <div class="next-step reveal">
+          <div class="n">03</div>
+          <div><div class="t">창직과 창업의 첫걸음</div><div class="d">국립공주대학교 K-MediWell 글로컬 프로젝트팀과 함께, 배움을 진로와 창업으로 잇는 다음 단계를 안내합니다.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="org">K-MediWell 글로컬 프로젝트팀</div>
+        <div style="margin-top:6px;">국립공주대학교 스마트의료웰니스관광대학원 · 총괄 이용근 교수</div>
+      </div>
+      <div>
+        문의 · 국립공주대학교 관광경영학과<br>041-850-8673
+      </div>
+    </div>
+    <div class="fine">2026 충청남도교육청 여름방학 꿈키움 학교 밖 교육 · 창의적 체험활동 &mdash; 뉴로피드백 뇌파로 체험하는 K-치유관광 창의체험 프로그램</div>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.14 });
+    els.forEach(el => io.observe(el));
+  } else {
+    els.forEach(el => el.classList.add('in'));
+  }
+
+  // Ambient EEG wave: left half jagged/vermilion -> right half smooth/jade
+  const canvas = document.getElementById('eegCanvas');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w, h, dpr;
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function noise(seed){ return Math.sin(seed*12.9898)*43758.5453 % 1; }
+
+  function draw(t){
+    ctx.clearRect(0,0,w,h);
+    const midY = h*0.55;
+    const n = 260;
+    ctx.lineWidth = 1.6;
+
+    // vermilion jagged (before) - left 2/3 fades out
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const x = (i/n)*w;
+      const progress = i/n;
+      const chaos = (1 - smoothstep(0.35,0.85,progress)) ;
+      const y = midY
+        + Math.sin(progress*40 + t*0.0016)*10*chaos
+        + Math.sin(progress*140 + t*0.004)*6*chaos
+        + (Math.random()-0.5)*7*chaos*(reduceMotion?0:1);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    const gradA = ctx.createLinearGradient(0,0,w,0);
+    gradA.addColorStop(0,'#c25a3d');
+    gradA.addColorStop(0.75,'rgba(194,90,61,0.05)');
+    gradA.addColorStop(1,'rgba(194,90,61,0)');
+    ctx.strokeStyle = gradA;
+    ctx.stroke();
+
+    // jade smooth (after) - right 2/3 fades in
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const x = (i/n)*w;
+      const progress = i/n;
+      const calm = smoothstep(0.15,0.65,progress);
+      const y = midY + Math.sin(progress*10 + t*0.0009)*9*calm;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    const gradB = ctx.createLinearGradient(0,0,w,0);
+    gradB.addColorStop(0,'rgba(74,139,120,0)');
+    gradB.addColorStop(0.3,'rgba(74,139,120,0.08)');
+    gradB.addColorStop(1,'#4a8b78');
+    ctx.strokeStyle = gradB;
+    ctx.stroke();
+
+    // center divider marker
+    ctx.strokeStyle = 'rgba(201,162,74,0.35)';
+    ctx.setLineDash([2,4]);
+    ctx.beginPath();
+    ctx.moveTo(w*0.5,10); ctx.lineTo(w*0.5,h-10);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  function smoothstep(a,b,x){
+    const t = Math.min(1, Math.max(0, (x-a)/(b-a)));
+    return t*t*(3-2*t);
+  }
+
+  let raf;
+  function loop(t){
+    draw(t);
+    if(!reduceMotion){ raf = requestAnimationFrame(loop); }
+  }
+  if(reduceMotion){ draw(0); } else { raf = requestAnimationFrame(loop); }
+</script>
+
+</body>
+</html>
